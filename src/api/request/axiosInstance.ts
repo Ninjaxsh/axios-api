@@ -5,12 +5,14 @@ const axiosInstance: AxiosInstance = axios.create({
   // baseURL: '/dev-api/api/v1', // 替换为你的远程API地址
   baseURL: import.meta.env.VITE_API_BASE_URL || "/dev-api", // 使用环境变量或默认值
   timeout: 15000, // 设置请求超时
+  withCredentials: true, // 是否携带凭证
 });
 
 // 请求拦截器
 axiosInstance.interceptors.request.use(
   (config) => {
     // 在这里可以添加请求头，例如 Authentication 令牌
+    config.headers.Authorization = `Bearer 1234`;
     return config;
   },
   (error) => {
