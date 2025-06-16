@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import ApiRequestService from "./api/request";
 import { type Result } from "./interface/ResponseType.ts";
-import { currentThemeMode, toggleTheme } from "./utils/theme";
-
-import BrightnessIcon from "./assets/brightness.svg";
-import DarknessIcon from "./assets/darkness.svg";
-import AutoDayNightIcon from "./assets/auto_day_night.svg";
+import ThemeSwitch from "./components/ThemeSwitch.vue";
 
 const result = ref<Result>({
   code: "0",
@@ -22,17 +18,6 @@ const requestData = {
   msgId: "msgid1",
   msg: "msg1",
 };
-
-const themeTip = computed(() => {
-  switch (currentThemeMode.value) {
-    case 'light':
-      return '当前：浅色模式';
-    case 'dark':
-      return '当前：深色模式';
-    default:
-      return '当前：跟随系统';
-  }
-});
 
 async function fetchData<Result>(
   path: string,
@@ -71,13 +56,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="theme-switch">
-      <button class="theme-btn" @click="toggleTheme" :title="themeTip">
-        <BrightnessIcon v-if="currentThemeMode === 'light'" />
-        <DarknessIcon v-else-if="currentThemeMode === 'dark'" />
-        <AutoDayNightIcon v-else />
-      </button>
-    </div>
+    <ThemeSwitch />
     <button @click="fetchData('/log/tail', 'GET')">Axios - GET - tail</button>
     <br />
     <br />
@@ -96,37 +75,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.theme-switch {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.theme-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-  color: var(--text-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-}
-
-.theme-btn:focus {
-  outline: none;
-}
-
-.theme-btn svg {
-  width: 30px;
-  height: 30px;
-}
-
-.theme-btn:hover {
-  background-color: var(--button-bg);
-}
 </style>
