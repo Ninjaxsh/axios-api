@@ -57,7 +57,7 @@ onMounted(() => {
 <template>
   <div>
     <ThemeSwitch />
-    <button @click="fetchData('/log/tail', 'GET')">Axios - GET - tail</button>
+    <button @click="fetchData('/log/tail?token=cs&lines=1', 'GET')">Axios - GET - tail</button>
     <br />
     <br />
     <button @click="fetchData('/', 'GET')">Axios - GET - /</button>
